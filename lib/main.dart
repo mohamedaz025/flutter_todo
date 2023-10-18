@@ -58,8 +58,9 @@ class _TodoappState extends State<Todoapp> {
                 return Container(
                     padding: EdgeInsets.all(25),
                     width: double.infinity,
-                    height: 400,
+                    height: 500,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextField(
                           maxLength: 20, //  لعمل حد اقصي للمدخل
@@ -75,7 +76,9 @@ class _TodoappState extends State<Todoapp> {
                               style: TextStyle(fontSize: 25),
                             ))
                       ],
-                    ));
+                    )
+                    
+                    );
               }, isScrollControlled: true);
         },
         backgroundColor: Colors.blue,
