@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 
 class Todocard extends StatelessWidget {
-  const Todocard({super.key});
+  final String vartitle; //  تعريف متغير
+  final bool donORnot;
+  const Todocard({super.key, required this.vartitle, required this.donORnot});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class Todocard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadiusDirectional.circular(20),
-          color: Colors.grey,
+          color: Colors.grey[800],
         ),
         margin: EdgeInsets.only(top: 20),
         padding: EdgeInsets.all(20),
@@ -20,12 +22,16 @@ class Todocard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "data",
-              style: TextStyle(color: Colors.black, fontSize: 25),
+              vartitle, //  ربط التيكست بالمتغير
+              style: TextStyle(color: Colors.white, fontSize: 25),
             ),
             Icon(
-              Icons.close,
-              color: Colors.red,
+
+              
+             donORnot ? Icons.check :Icons.close,
+             size: 27,
+             color: donORnot ? Colors.green :Colors.red,
+
             )
           ],
         ),
