@@ -26,28 +26,61 @@ class Todoapp extends StatefulWidget {
   State<Todoapp> createState() => _TodoappState();
 }
 
-class Task {        //   ليسته مدخلات الثابته
-  String title;   
-  bool status;     //  نوع المتغير ترو او فولس
-  Task({required this.title,
-   required this.status,
-   });
+class Task {
+  //   ليسته مدخلات الثابته
+  String title;
+  bool status; //  نوع المتغير ترو او فولس
+  Task({
+    required this.title,
+    required this.status,
+  });
 }
 
-
-List alltask =[       //  ليسته بالتسكات 
-  Task(title : "pulish video",status:true),
-  Task(title : "pulish ",status:true),
-  Task(title : "gem",status:false),
-  Task(title : "pulish",status:true),
+List alltask = [
+  //  ليسته بالتسكات
+  Task(title: "pulish video", status: true),
+  Task(title: "pulish ", status: true),
+  Task(title: "gem", status: false),
+  Task(title: "pulish", status: true),
 ];
-
-
 
 class _TodoappState extends State<Todoapp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        //
+        onPressed: () {
+          showModalBottomSheet(
+              //   لعمل صفحة تفتح للمنتصف
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                    padding: EdgeInsets.all(25),
+                    width: double.infinity,
+                    height: 400,
+                    child: Column(
+                      children: [
+                        TextField(
+                          maxLength: 20, //  لعمل حد اقصي للمدخل
+                          decoration: InputDecoration(hintText: "Add new task"),
+                        ),
+                        SizedBox(height: 20),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Add",
+                              style: TextStyle(fontSize: 25),
+                            ))
+                      ],
+                    ));
+              }, isScrollControlled: true);
+        },
+        backgroundColor: Colors.blue,
+        child: Icon(Icons.add),
+      ),
       backgroundColor: Color.fromRGBO(58, 66, 86, 0.9),
       appBar: AppBar(
         title: Text(
@@ -63,10 +96,13 @@ class _TodoappState extends State<Todoapp> {
         child: Column(
           children: [
             // Todocard(),
-           ...alltask.map((item)=> Todocard(    //  وضع الليست داخل ماب
-            vartitle:item.title ,   //  تغير المتغير في التيكست بالليست
-            donORnot: item.status,
-            )).toList()     //  تكرار بعدد المدخلات داخل الليسته
+            ...alltask
+                .map((item) => Todocard(
+                      //  وضع الليست داخل ماب
+                      vartitle: item.title, //  تغير المتغير في التيكست بالليست
+                      donORnot: item.status,
+                    ))
+                .toList() //  تكرار بعدد المدخلات داخل الليسته
           ],
         ),
       ),
