@@ -36,15 +36,29 @@ class Task {
   });
 }
 
-List alltask = [
-  //  ليسته بالتسكات
-  Task(title: "pulish video", status: true),
-  Task(title: "pulish ", status: true),
-  Task(title: "gem", status: false),
-  Task(title: "pulish", status: true),
-];
-
 class _TodoappState extends State<Todoapp> {
+  final myController =
+      TextEditingController(); //  لعمل كونكت مع التيكست فيلد والتخزين داخل متغير
+
+
+  List alltask = [
+    //  ليسته بالتسكات
+    Task(title: "pulish video", status: true),
+    Task(title: "pulish ", status: true),
+    Task(title: "gem", status: false),
+    Task(title: "pulish", status: true),
+  ];
+
+  addnew() {
+    setState(() {
+
+      alltask.add(    //  لعمل اضافة داخل ليست 
+        Task(title: myController.text, status: true),   // جعل لالتيتيل يساوي المتغير
+        
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,17 +72,19 @@ class _TodoappState extends State<Todoapp> {
                 return Container(
                     padding: EdgeInsets.all(25),
                     width: double.infinity,
-                    height: 500,
+                    height: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextField(
+                          controller: myController,  // ربط التيكست بمتغير
                           maxLength: 20, //  لعمل حد اقصي للمدخل
                           decoration: InputDecoration(hintText: "Add new task"),
                         ),
                         SizedBox(height: 20),
                         TextButton(
                             onPressed: () {
+                              addnew();
                               Navigator.pop(context);
                             },
                             child: Text(
@@ -76,10 +92,11 @@ class _TodoappState extends State<Todoapp> {
                               style: TextStyle(fontSize: 25),
                             ))
                       ],
-                    )
-                    
-                    );
-              }, isScrollControlled: true);
+                    ));
+              },
+              isScrollControlled: true // لجعل القائمة تظهر بالكامل الصفحة
+
+              );
         },
         backgroundColor: Colors.blue,
         child: Icon(Icons.add),
