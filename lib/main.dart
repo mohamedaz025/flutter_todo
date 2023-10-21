@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, sized_box_for_whitespace, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/widgets/counter.dart';
 import 'package:flutter_todo/widgets/to_do.dart'; // أساس الكود
 
 void main() {
@@ -39,24 +40,34 @@ class Task {
 class _TodoappState extends State<Todoapp> {
   final myController =
       TextEditingController(); //  لعمل كونكت مع التيكست فيلد والتخزين داخل متغير
-
-
+  
   List alltask = [
     //  ليسته بالتسكات
     Task(title: "pulish video", status: true),
     Task(title: "pulish ", status: true),
-    Task(title: "gem", status: false),
+    Task(title: "gem", status: true),
     Task(title: "pulish", status: true),
   ];
 
   addnew() {
     setState(() {
-
-      alltask.add(    //  لعمل اضافة داخل ليست 
-        Task(title: myController.text, status: true),   // جعل لالتيتيل يساوي المتغير
-        
+      alltask.add(
+        //  لعمل اضافة داخل ليست
+        Task(
+            title: myController.text,
+            status: false), // جعل لالتيتيل يساوي المتغير
       );
     });
+  }
+
+  int calc() {
+    int complet = 0;
+    alltask.forEach((item) {
+      if (item.status) {
+        complet++;
+      }
+    });
+    return complet;
   }
 
   @override
@@ -65,19 +76,22 @@ class _TodoappState extends State<Todoapp> {
       floatingActionButton: FloatingActionButton(
         //
         onPressed: () {
-          showModalBottomSheet(
-              //   لعمل صفحة تفتح للمنتصف
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
+          showDialog(
+            //   لعمل صفحة تفتح للمنتصف
+            context: context,
+            builder: (BuildContext context) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                child: Container(
                     padding: EdgeInsets.all(25),
                     width: double.infinity,
-                    height: double.infinity,
+                    height: 200,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextField(
-                          controller: myController,  // ربط التيكست بمتغير
+                          controller: myController, // ربط التيكست بمتغير
                           maxLength: 20, //  لعمل حد اقصي للمدخل
                           decoration: InputDecoration(hintText: "Add new task"),
                         ),
@@ -92,11 +106,10 @@ class _TodoappState extends State<Todoapp> {
                               style: TextStyle(fontSize: 25),
                             ))
                       ],
-                    ));
-              },
-              isScrollControlled: true // لجعل القائمة تظهر بالكامل الصفحة
-
+                    )),
               );
+            },
+          );
         },
         backgroundColor: Colors.blue,
         child: Icon(Icons.add),
@@ -115,14 +128,25 @@ class _TodoappState extends State<Todoapp> {
         width: double.infinity,
         child: Column(
           children: [
+            counter(
+              alltasks: alltask.length,
+              allcomplet: calc(),
+            ),
+            Container(
+              color: Colors.blue,
+              margin: EdgeInsets.only(top: 20),
+              height: 630,
+              child: ListView.builder(
+                  itemCount: alltask.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Todocard(
+ 
+                      vartitle: alltask[index].title, 
+                      donORnot: alltask[index].status,
+                    );
+                  }),
+            )
             // Todocard(),
-            ...alltask
-                .map((item) => Todocard(
-                      //  وضع الليست داخل ماب
-                      vartitle: item.title, //  تغير المتغير في التيكست بالليست
-                      donORnot: item.status,
-                    ))
-                .toList() //  تكرار بعدد المدخلات داخل الليسته
           ],
         ),
       ),
