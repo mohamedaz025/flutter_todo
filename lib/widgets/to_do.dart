@@ -36,7 +36,12 @@ class Todocard extends StatelessWidget {
             children: [
               Text(
                 vartitle, //  ربط التيكست بالمتغير
-                style: TextStyle(color: Colors.white, fontSize: 25),
+                style: TextStyle(
+                color: donORnot? Colors.black : Colors.white,
+                fontSize: 25,
+                decoration:donORnot? TextDecoration.lineThrough : TextDecoration.none,
+
+                ),
               ),
               Row(
                 children: [
