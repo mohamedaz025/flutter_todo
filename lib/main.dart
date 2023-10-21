@@ -40,7 +40,7 @@ class Task {
 class _TodoappState extends State<Todoapp> {
   final myController =
       TextEditingController(); //  لعمل كونكت مع التيكست فيلد والتخزين داخل متغير
-  
+
   List alltask = [
     //  ليسته بالتسكات
     Task(title: "pulish video", status: true),
@@ -48,6 +48,24 @@ class _TodoappState extends State<Todoapp> {
     Task(title: "gem", status: true),
     Task(title: "pulish", status: true),
   ];
+
+  delete(int clicked) {
+    setState(() {
+      alltask.remove(alltask[clicked]);
+    });
+  }
+
+  deleteall() {
+    setState(() {
+      alltask.removeRange(0, alltask.length);
+    });
+  }
+
+  chqngestatus(int taskindex) {
+    setState(() {
+      alltask[taskindex].status = !alltask[taskindex].status;
+    });
+  }
 
   addnew() {
     setState(() {
@@ -116,6 +134,16 @@ class _TodoappState extends State<Todoapp> {
       ),
       backgroundColor: Color.fromRGBO(58, 66, 86, 0.9),
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              deleteall();
+            },
+            icon: Icon(Icons.delete_forever),
+            color: Colors.red,
+            iconSize: 35,
+          )
+        ],
         title: Text(
           "To Do",
           style: TextStyle(
@@ -140,9 +168,11 @@ class _TodoappState extends State<Todoapp> {
                   itemCount: alltask.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Todocard(
- 
-                      vartitle: alltask[index].title, 
+                      vartitle: alltask[index].title,
                       donORnot: alltask[index].status,
+                      myfunc: chqngestatus,
+                      index: index,
+                      delete: delete,
                     );
                   }),
             )
